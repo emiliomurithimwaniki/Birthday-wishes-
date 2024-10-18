@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wishes</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #borderAnimation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 10px solid #ff0000;
+            animation: borderAnimation 3s infinite alternate;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                border-color: #ff0000;
+            }
+            100% {
+                border-color: #00ff00;
+            }
+        }
+
+        #greeting {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        #birthdayForm {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ffffff;
+        }
+
+        #countdown {
+            font-size: 18px;
+            color: #00ff00;
+            animation: countdownAnimation 1s infinite alternate;
+        }
+
+        @keyframes countdownAnimation {
+            0% {
+                transform: scale(1);
+                color: #00ff00;
+            }
+            100% {
+                transform: scale(1.2);
+                color: #ff0000;
+            }
+        }
+
+        #happyBirthday {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 18px;
+            color: #00ff00;
+            animation: happyBirthdayAnimation 0.10s infinite;
+        }
+
+        @keyframes happyBirthdayAnimation {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(90deg);
+            }
+            50% {
+                transform: rotate(180deg);
+            }
+            75% {
+                transform: rotate(270deg);
+            }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+
+</head>
+<body>
+    <div id="borderAnimation"></div>
+    <div id="greeting"></div>
+    <div id="birthdayForm">
+        <label for="yearOfBirth">Enter Your Year of Birth:</label>
+        <input type="number" id="yearOfBirth" placeholder="YYYY" required>
+        <label for="month">Select Your Birth Month:</label>
+        <input type="month" id="month" required>
+        <label for="day">Select Your Birth Day:</label>
+        <input type="number" id="day" placeholder="DD" required>
+      <marquee onmouseover="this.stop()" onmouseout="this.start()">Happy Birthday To You</marquee>
+        <button onclick="setBirthday()">Submit</button>
+    </div>
+    <div id="happyBirthday">H&nbsp;a&nbsp;p&nbsp;p&nbsp;y&nbsp;&nbsp;B&nbsp;i&nbsp;r&nbsp;t&nbsp;h&nbsp;d&nbsp;a&nbsp;y</div>
+
+    <script>
+        function updateCountdown() {
+            const birthdayDate = new Date(document.getElementById('yearOfBirth').value,
+                document.getElementById('month').value.split("-")[1] - 1,
+                document.getElementById('day').value);
+
+            const currentYear = new Date().getFullYear();
+            birthdayDate.setFullYear(currentYear); // Set the current year for accurate age calculation
+
+            const currentDate = new Date();
+            let nextBirthday = new Date(currentYear, birthdayDate.getMonth(), birthdayDate.getDate());
+
+            // Check if the birthday has already occurred in the current year
+            if (nextBirthday < currentDate) {
+                // If so, calculate time until next year's birthday
+                nextBirthday = new Date(currentYear + 1, birthdayDate.getMonth(), birthdayDate.getDate());
+            }
+
+            const age = currentYear - document.getElementById('yearOfBirth').value;
+
+            const timeDifference = nextBirthday - currentDate;
+
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            const milliseconds = timeDifference % 1000;
+
+            document.getElementById('greeting').innerHTML = `
+                <p id="countdown">Happy Birthday!</p>
+                <p>Your birthday is on ${birthdayDate.toDateString()}.</p>
+                <p>You are ${age} years old.</p>
+                <p>Countdown to Next Birthday:</p>
+                <p>${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds, ${milliseconds} milliseconds.</p>
+            `;
+        }
+
+        function setBirthday() {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
+</body>
+</html>
