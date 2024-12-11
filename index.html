@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wishes</title>
+    <style>
+        /* Your existing CSS styles here */
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1e1e1e; /* Initial background color */
+            animation: changeBackground 15s infinite;
+        }
+
+        @keyframes changeBackground {
+            0%, 100% {
+                background-color: white; /* Initial color */
+            }
+            25% {
+                background-color: white; /* Light yellow */
+            }
+            50% {
+                background-color: white; /* Pink */
+            }
+            75% {
+                background-color: white; /* Sky blue */
+            }
+        }
+
+        .flower {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+          background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8ZtlmVIAg5ZOXjn9W0j-c6fGho8bxvxDmuA&usqp=CAU');
+          background-size: contain;
+            animation: flowerAnimation 15s infinite;
+        }
+
+        @keyframes flowerAnimation {
+            0% {
+                transform: scale(0) rotate(0deg);
+            }
+            25% {
+                transform: scale(1) rotate(90deg);
+            }
+            50% {
+                transform: scale(0.5) rotate(180deg);
+            }
+            75% {
+                transform: scale(2.0) rotate(270deg);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+
+    
+
+        #greeting {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 20% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        /* Button styles */
+        .modal-button {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Form styles */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="month"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Close button styles */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Output styles */
+        .output-container {
+            position: fixed;
+            z-index: 1;
+            left: 20%;
+            top: 20%;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .output-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .output-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .output-details {
+            font-size: 16px;
+            color: #333;
+        }
+   .share-button {
+            background-color: #007bff; /* Change background color */
+            color: white; /* Change text color */
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s; /* Add transition effect */
+        }
+
+        .share-button:hover {
+            background-color: #0056b3; /* Change background color on hover */
+        }
+    </style>
+
+</head>
+<body>
+    <button class="modal-button" onclick="openModal()">Wish someone you love a happy birthday</button>
+    <div id="greeting"></div>
+  
+ <!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <fieldset>
+            <legend> Wish Someone A Happy Birthday </legend>
+            <div id="birthdayForm">
+                <label for="yourName">Your Name:</label>
+                <input type="text" id="yourName" placeholder="Your Name" required><br>
+                <label for="recipientName">Recipient's Name:</label>
+                <input type="text" id="recipientName" placeholder="Recipient's Name" required><br>
+                <label for="yearOfBirth">Recipient's Year of Birth:</label>
+                <input type="number" id="yearOfBirth" placeholder="YYYY" required><br>
+                <label for="month">Recipient's Birth Month:</label>
+                <input type="month" id="month" required><br>
+                <label for="day">Recipient's Birth Day:</label>
+                <input type="number" id="day" placeholder="DD" required><br>
+                <label for="message">Special Message:</label><br>
+                <textarea id="message" rows="4" cols="50" placeholder="Leave a special message"></textarea><br>
+                <button onclick="setBirthday(event)">Submit</button>
+                <button class="share-button" onclick="shareContent()">Share</button> <!-- Share button -->
+            </div>
+        </fieldset>
+    </div>
+</div>
+    </div>
+
+    <!-- Output Container -->
+    <!-- Output Container -->
+<!-- Output Container -->
+<div id="outputContainer" class="output-container" style="display: none;">
+    <div class="output-title">Birthday Wishes</div>
+    <div class="output-message" id="outputMessage"></div>
+    <div class="output-details" id="outputDetails"></div>
+ <button class="share-button" onclick="shareContent()">Share</button> <!-- Share button -->
+     
+</div>
+
+<script>
+    // Function to update the countdown timer
+    function updateCountdown() {
+        const yourName = document.getElementById('yourName').value;
+        const recipientName = document.getElementById('recipientName').value;
+        const yearOfBirth = document.getElementById('yearOfBirth').value;
+        const month = document.getElementById('month').value;
+        const day = document.getElementById('day').value;
+        const message = document.getElementById('message').value;
+
+        // Check if all input fields are filled
+        if (!yourName || !recipientName || !yearOfBirth || !month || !day || !message) {
+            return; // If any input field is empty, do not update the countdown
+        }
+
+        const birthdayDate = new Date(yearOfBirth, month.split("-")[1] - 1, day);
+        const currentYear = new Date().getFullYear();
+        birthdayDate.setFullYear(currentYear); // Set the current year for accurate age calculation
+        const currentDate = new Date();
+        let nextBirthday = new Date(currentYear, birthdayDate.getMonth(), birthdayDate.getDate());
+
+        // Check if the birthday has already occurred in the current year
+        if (nextBirthday < currentDate) {
+            // If so, calculate time until next years birthday
+            nextBirthday = new Date(currentYear + 1, birthdayDate.getMonth(), birthdayDate.getDate());
+        }
+
+        const age = currentYear - yearOfBirth;
+
+        const timeDifference = nextBirthday - currentDate;
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        const outputMessage = `
+            <p>Happy Birthday, ${recipientName}!</p>
+            <p>From ${yourName}</p>
+            <p>${message}</p>
+        `;
+
+        const outputDetails = `
+            <p>The birthday is on ${birthdayDate.toDateString()}.</p>
+            <p>${recipientName} is ${age} years old.</p>
+            <p>Countdown to Next Birthday:</p>
+            <p>${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds.</p>
+        `;
+
+        document.getElementById('outputMessage').innerHTML = outputMessage;
+        document.getElementById('outputDetails').innerHTML = outputDetails;
+
+        // Display the output container
+        document.getElementById('outputContainer').style.display = 'block';
+    }
+
+    // Function to set the birthday and update the countdown timer
+    function setBirthday(event) {
+        event.preventDefault(); // Prevent default form submission
+        updateCountdown();
+        closeModal(); // Close modal after submission
+    }
+
+    // Call updateCountdown() initially and every second thereafter
+    setInterval(updateCountdown, 1000); // Update countdown every second
+
+    // Function to open the modal
+    function openModal() {
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Function to share content using Web Share API
+    function shareContent() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Birthday Wishes',
+                text: 'Check out this birthday wishes page!',
+                url: window.location.href
+            })
+            .then(() => console.log('Shared successfully'))
+            .catch((error) => console.error('Error sharing:', error));
+        } else {
+            // Fallback for browsers that do not support Web Share API
+            alert('Your browser does not support sharing.');
+        }
+    }
+
+    // Function to generate a random number between min and max
+    function getRandomNumber(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    // Function to create and position a flower
+    function createFlower() {
+        const flower = document.createElement('div');
+        flower.classList.add('flower');
+        flower.style.top = getRandomNumber(0, window.innerHeight - 50) + 'px';
+        flower.style.left = getRandomNumber(0, window.innerWidth - 50) + 'px';
+        document.body.appendChild(flower);
+        
+        // Fade out the flower after a random time interval
+        setTimeout(function() {
+            flower.style.opacity = '0';
+            // Remove the flower from the DOM after fading out
+            setTimeout(function() {
+                document.body.removeChild(flower);
+                // Create a new flower after removing the faded one
+                createFlower();
+            }, 1000); // Delay before removing the flower
+        }, getRandomNumber(1000, 5000)); // Change the range of random fade-out time as needed
+    }
+
+    // Function to continuously create flowers until at least 10 are visible
+    function createFlowers() {
+        const flowersCount = document.querySelectorAll('.flower').length;
+        const remainingFlowers = 10 - flowersCount;
+        for (let i = 0; i < remainingFlowers; i++) {
+            createFlower();
+        }
+    }
+
+    // Start creating flowers
+    createFlowers();
+</script>
+</body>
+</html>
